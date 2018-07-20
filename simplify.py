@@ -13,8 +13,9 @@ parser.add_argument('--out',   type=str, default='out.png',      help='File to o
 opt = parser.parse_args()
 
 use_cuda = torch.cuda.device_count() > 0
+use_cuda = False
 
-cache  = load_lua( opt.model )
+cache  = load_lua( opt.model,long_size=8 )
 model  = cache.model
 immean = cache.mean
 imstd  = cache.std
