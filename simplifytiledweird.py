@@ -14,9 +14,8 @@ parser.add_argument('--out',   type=str, default='out.png',      help='File to o
 opt = parser.parse_args()
 
 use_cuda = torch.cuda.device_count() > 0
-use_cuda = False
 
-tile_size = 256
+tile_size = 300
 
 cache  = load_lua( opt.model,long_size=8 )
 model  = cache.model
@@ -82,7 +81,7 @@ for ytile in range( ytiles ):
       x_coord = xtile * tile_size
       y_coord = ytile * tile_size
       
-      out_image.paste( transforms.ToPILImage()( out_imagetiles[xtile + ytile] ), [x_coord, y_coord] )
+      out_image.paste( transforms.ToPILImage()( out_imagetiles[xtile + ytile].cpu() ), [x_coord, y_coord] )
 
 #save_image( pred[0], opt.out )
 out_image.save( opt.out )

@@ -14,7 +14,6 @@ parser.add_argument('--out',   type=str, default='out.png',      help='File to o
 opt = parser.parse_args()
 
 use_cuda = torch.cuda.device_count() > 0
-use_cuda = False
 
 tile_size = 300
 
@@ -78,8 +77,8 @@ for ytile in range( ytiles ):
          pred = model.cuda().forward( data.cuda() ).float()
       else:
          pred = model.forward( data )
-      
-      out_imagetiles[ytile][xtile] = transforms.ToPILImage( 'L' )( pred[0] ).copy()
+
+      out_imagetiles[ytile][xtile] = transforms.ToPILImage( 'L' )( pred[0].cpu() ).copy()
 
 out_image = Image.new('L', [full_x, full_y])
 
